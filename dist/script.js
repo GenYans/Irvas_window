@@ -54,9 +54,60 @@ const modals = () => {
   }
   bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close');
   bindModal('.phone_link', '.popup', '.popup_close');
-  showModalByTime('.popup', 3000);
+  /* showModalByTime('.popup', 60000); */
 };
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modals);
+
+/***/ }),
+
+/***/ "./src/js/modules/tabs.js":
+/*!********************************!*\
+  !*** ./src/js/modules/tabs.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const tabs = (headerSelector, tabSelector, contentSelector, activeClass) => {
+  const header = document.querySelector(headerSelector),
+    tab = document.querySelectorAll(tabSelector),
+    content = document.querySelectorAll(contentSelector);
+  function hideTabContent() {
+    content.forEach(item => {
+      item.style.display = 'none';
+    });
+    tab.forEach(item => {
+      item.classList.remove(activeClass);
+    });
+  }
+  function showTabContant() {
+    let i = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    content[i].style.display = 'block';
+    tab[i].classList.add(activeClass);
+  }
+  hideTabContent();
+  showTabContant();
+  header.addEventListener('click', e => {
+    const target = e.target;
+    if (target && (target.classList.contains(tabSelector.replace(/\./, "")) ||
+    // Меняем точку на пустой знак меняя класс 
+    target.parentNode.classList.contains(tabSelector.replace(/\./, "")))) {
+      tab.forEach((item, i) => {
+        //Определяем в какой по счету элемент мы кликнули (item - каждый отдельный элемент который мы перебираем, i - номер)
+        if (target == item || target.parentNode == item) {
+          // Если элемент который кликнул пользователь равен, тому что мы перебираем 
+          hideTabContent(); // Скрываем весь контент и класс активности 
+          showTabContant(i);
+        }
+      });
+    }
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (tabs);
 
 /***/ }),
 
@@ -13960,11 +14011,15 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/slider.js");
 /* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
+/* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
+
 
 
 window.addEventListener('DOMContentLoaded', () => {
   // Глобальный обр.событий (скрипты начинают выполняться тогда, когда DOM струткура на странице готова)
   (0,_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])();
+  (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.glazing_slider', '.glazing_block', '.glazing_content', 'active'); // Точку перед классом active не ставим, скрипт знает что это класс
+  (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.decoration_slider', '.no_click', '.decoration_content > div > div', 'after_click');
 });
 })();
 
